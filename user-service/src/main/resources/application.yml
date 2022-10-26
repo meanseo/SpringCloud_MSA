@@ -1,0 +1,16 @@
+server:
+  port: 0 #포트 랜덤 설정
+
+spring:
+  application:
+    name: user-service
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    # yml 파일 설정 0 (갯수와 상관없이 0으로 통일), 구분을 위해 각 인스턴스마다 아이디 부여
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
