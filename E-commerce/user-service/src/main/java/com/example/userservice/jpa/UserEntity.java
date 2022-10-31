@@ -1,10 +1,12 @@
 package com.example.userservice.jpa;
 
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 
-@Data
+
+@Getter //DB와 연결되는 것인데 불변하지 않다는 것은 말이 안됨, setter 지양
 @Entity
 @Table(name = "users")
 public class UserEntity {
