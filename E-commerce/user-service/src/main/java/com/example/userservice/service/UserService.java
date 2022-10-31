@@ -7,5 +7,5 @@ public interface UserService {
     UserDto createUser(UserDto userDto);
 
     UserDto getUserByUserId(String userId); //가져온 데이터를 가공할 경우 UserDto
-    Iterable<UserEntity> getUserrByAll(); //그대로 반환할 경우 Iterable<UserEntity>
+    Iterable<UserEntity> getUserByAll(); //그대로 반환할 경우 Iterable<UserEntity>
 }
