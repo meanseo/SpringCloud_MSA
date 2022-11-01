@@ -41,6 +41,5 @@ public class CatalogController {
         });
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-
 }
 
