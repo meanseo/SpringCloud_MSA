@@ -1,12 +1,13 @@
 package com.example.userservice.jpa;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
 import javax.persistence.*;
 
 
-@Getter //DB와 연결되는 것인데 불변하지 않다는 것은 말이 안됨, setter 지양
+@Data
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -22,5 +23,4 @@ public class UserEntity {
     private String userId;
     @Column(nullable = false, unique = true)
     private String encryptedPwd;
-
 }
