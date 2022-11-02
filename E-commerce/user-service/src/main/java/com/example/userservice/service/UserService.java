@@ -9,4 +9,6 @@ public interface UserService extends UserDetailsService {
 
     UserDto getUserByUserId(String userId); //가져온 데이터를 가공할 경우 UserDto
     Iterable<UserEntity> getUserByAll(); //그대로 반환할 경우 Iterable<UserEntity>
+
+    UserDto getUserDetailsByEmail(String userName);
 }

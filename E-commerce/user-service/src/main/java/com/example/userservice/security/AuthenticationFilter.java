@@ -1,8 +1,12 @@
 package com.example.userservice.security;
 
+import com.example.userservice.dto.UserDto;
+import com.example.userservice.service.UserService;
 import com.example.userservice.vo.RequestLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -19,6 +23,17 @@ import java.util.ArrayList;
 @Slf4j
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     // 기존에 있던 메소드를 그대로 사용하지 않고 조작하여 사용할 것 임 (command n -> override)
+    private UserService userService;
+    private Environment env;
+
+    // command n -> constructor
+    public AuthenticationFilter(AuthenticationManager authenticationManager,
+                                UserService userService,
+                                Environment env) {
+        super.setAuthenticationManager(authenticationManager);
+        this.userService = userService;
+        this.env = env;
+    }
 
     // 로그인을 하게 되면 제일 먼저 접근하게 되는 메소드
     @Override
@@ -44,6 +59,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
-        log.debug(((User)authResult.getPrincipal()).getUsername()); //User 타입으로 캐스팅
+        String userName = ((User)authResult.getPrincipal()).getUsername(); //User 타입으로 캐스팅
+        UserDto userDetails = userService.getUserDetailsByEmail(userName);
     }
 }

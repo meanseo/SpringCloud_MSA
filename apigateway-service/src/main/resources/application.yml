@@ -30,8 +30,8 @@ spring:
             - Path=/user-service/login
             - Method=POST
           filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment} #앞 패스로 들어오면 뒤 서비스 형태로 바꾸겠다
+            - RemoveRequestHeader=Cookie # 쿠키 삭제 후 실행
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment} # 앞 패스로 들어오면 뒤 서비스 형태로 바꾸겠다
         - id: user-service
           uri: lb://USER-SERVICE # 유레카에 등록된 이름 확인
           predicates:
