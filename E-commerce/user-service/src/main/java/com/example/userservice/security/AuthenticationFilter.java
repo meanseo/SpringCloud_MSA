@@ -4,6 +4,10 @@ import com.example.userservice.dto.UserDto;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.RequestLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,13 +22,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Key;
 import java.util.ArrayList;
+import java.util.Date;
+
+import static io.jsonwebtoken.SignatureAlgorithm.*;
 
 @Slf4j
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     // 기존에 있던 메소드를 그대로 사용하지 않고 조작하여 사용할 것 임 (command n -> override)
     private UserService userService;
     private Environment env;
+    private final Key key;
 
     // command n -> constructor
     public AuthenticationFilter(AuthenticationManager authenticationManager,
@@ -33,6 +42,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         super.setAuthenticationManager(authenticationManager);
         this.userService = userService;
         this.env = env;
+        byte[] keyBytes = Decoders.BASE64.decode(env.getProperty("token.secret"));
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+
     }
 
     // 로그인을 하게 되면 제일 먼저 접근하게 되는 메소드
@@ -61,5 +73,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authResult) throws IOException, ServletException {
         String userName = ((User)authResult.getPrincipal()).getUsername(); //User 타입으로 캐스팅
         UserDto userDetails = userService.getUserDetailsByEmail(userName);
+
+        String token = Jwts.builder()
+                .setSubject(userDetails.getUserId())
+                .setExpiration(new Date(System.currentTimeMillis() +
+                        Long.parseLong(env.getProperty("token.expiration_time")))) //env:무조건 str 값으로 가져옴
+                .signWith(key, HS256)
+                .compact();
+
+        response.addHeader("token", token);
+        response.addHeader("userId", userDetails.getUserId());
     }
 }

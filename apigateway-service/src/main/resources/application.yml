@@ -48,6 +48,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter # 회원가입과 로그인에는 권한이 필요없지만 나머지는 필요
         - id: catalog-service
           uri: lb://CATALOG-SERVICE # 유레카에 등록된 이름 확인
           predicates:
@@ -77,3 +78,5 @@ spring:
                 baseMessage: Hi, Logging Filter.
                 preLogger: true
                 postLogger: true
+token:
+  secret: '01234567890123456789012345678901234567890123456789'
