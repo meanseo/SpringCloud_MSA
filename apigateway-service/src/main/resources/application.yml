@@ -57,6 +57,14 @@ spring:
           uri: lb://ORDER-SERVICE # 유레카에 등록된 이름 확인
           predicates:
             - Path=/order-service/**
+        - id: user-service
+          uri: lb://USER-SERVICE # 유레카에 등록된 이름 확인
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates: # 조건
@@ -80,3 +88,9 @@ spring:
                 postLogger: true
 token:
   secret: '01234567890123456789012345678901234567890123456789'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
