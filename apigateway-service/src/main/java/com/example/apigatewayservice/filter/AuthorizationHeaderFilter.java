@@ -44,7 +44,6 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
                 return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
             }
             return  chain.filter(exchange);
-
         };
     }
 
@@ -55,6 +54,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
         try {
             subject = Jwts.parser().setSigningKey(env.getProperty("token.secret"))
+                    //Jwts.parserBuilder().setSigningKey(env.getProperty("token.secret")).build() 왜 빌더
                     .parseClaimsJws(jwt).getBody()
                     .getSubject();
         } catch (Exception ex){

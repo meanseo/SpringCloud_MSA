@@ -61,7 +61,7 @@ spring:
           uri: lb://USER-SERVICE # 유레카에 등록된 이름 확인
           predicates:
             - Path=/user-service/actuator/**
-            - Method=GET
+            - Method=GET,POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
@@ -86,11 +86,13 @@ spring:
                 baseMessage: Hi, Logging Filter.
                 preLogger: true
                 postLogger: true
-token:
-  secret: '01234567890123456789012345678901234567890123456789'
 
 management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans
+        include: refresh, health, beans, httptrace # httptrace 사용을 위해서는 ApigatewayServiceApplication에 등록해주어야 한다.
+
+token:
+  secret: '01234567890123456789012345678901234567890123456789'
+

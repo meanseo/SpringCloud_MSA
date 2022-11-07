@@ -1,5 +1,10 @@
+# application.yml 파일보다 우선순위가 높은 설정 파일 (config니까 먼저 작동되어야 함)
+# 읽어오고자 하는 config의 위치를 설정
+# (application.yml 내부에 가지고 있어도 되지만 config cloud server를 사용할 것이기 때문에
 spring:
   cloud:
     config:
       uri: http://127.0.0.1:8888
       name: ecommerce
+  profiles:
+    active: dev

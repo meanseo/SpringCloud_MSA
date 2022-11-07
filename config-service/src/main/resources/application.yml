@@ -4,8 +4,15 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: native # git은 무시
   cloud:
     config:
       server:
+        native:
+          search-locations: file://${user.home}/IdeaProjects/springCloud/native-file-repo
         git:
-          uri: file://Users/ms/IdeaProjects/springCloud/git-local-repo
+          uri: https://github.com/meanseo/spring_cloud_config.git # 파일에서 직접 가져오는 것이 아닌 깃 리모트를 통해 설정 가져옴
+#          username: private repo라면 해당 값들도 적어주기
+#          password: private repo라면 해당 값들도 적어주기
+        # uri: file://Users/ms/IdeaProjects/springCloud/git-local-repo
