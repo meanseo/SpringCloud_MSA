@@ -1,2 +1,6 @@
 encrypt:
+  key-store:
+    location: file://${user.home}/IdeaProjects/keystore/apiEncryptionKey.jks
+    password: test1234
+    alias: apiEncryptionKey
 #  key: abcdefghijklnmopqrstuvwxyz0123456789 # 대칭키에 사용되는 키
