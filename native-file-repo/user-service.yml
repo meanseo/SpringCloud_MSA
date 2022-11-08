@@ -1,6 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/test
+    username: sa
+    password: '{cipher}ee3469c16ccda67332e8a06a281ad194f299874dc44fc0bffd8b2eb31e695af9'
 token:
   expiration_time: 86400000 #60 * 60 * 24 * 1000(millisecond) -> 하루 토큰
-  secret: 'nativeUserService12345678901234567890123456789012345678901234567890'
+  secret: userService01234567890123456789012345678901234567890123456789
+  # {ciper}를 붙여주어야 일반 스트링이 아닌 암호로 인식
 
 gateway:
   ip: 

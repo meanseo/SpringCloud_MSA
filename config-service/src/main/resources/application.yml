@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: config-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    stream:
+      username: guest
+      password: guest
   profiles:
     active: native # git은 무시
   cloud:
@@ -16,3 +22,8 @@ spring:
 #          username: private repo라면 해당 값들도 적어주기
 #          password: private repo라면 해당 값들도 적어주기
         # uri: file://Users/ms/IdeaProjects/springCloud/git-local-repo
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh

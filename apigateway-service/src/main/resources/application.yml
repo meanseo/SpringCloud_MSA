@@ -11,6 +11,12 @@ eureka:
 spring:
   application:
     name: apigateway-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    stream:
+      username: guest
+      password: guest
   cloud:
     gateway:
       default-filters:
@@ -91,7 +97,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httptrace # httptrace 사용을 위해서는 ApigatewayServiceApplication에 등록해주어야 한다.
+        include: refresh, health, beans, httptrace, busrefresh # httptrace 사용을 위해서는 ApigatewayServiceApplication에 등록해주어야 한다.
 
 token:
   secret: '01234567890123456789012345678901234567890123456789'

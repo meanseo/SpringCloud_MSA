@@ -4,16 +4,22 @@ server:
 spring:
   application:
     name: user-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    stream:
+      username: guest
+      password: guest
   h2:
     console:
       enabled: true
       settings:
         web-allow-others: true
       path: /h2-console
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/test
-    username: sa
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:~/test
+#    username: sa
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -39,7 +45,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans
+        include: refresh, health, beans, busrefresh
 
 #token:
 #  expiration_time: 86400000 #60 * 60 * 24 * 1000(millisecond) -> 하루 토큰
